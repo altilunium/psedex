@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>psedex</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		#card{
+			text-align: center;
+			width: 100%;
+		}
+		#roll{
+			background-color : blue;
+			padding: 30px;
+			width: 80px;
+			font-size: 35px;
+			color: white;
+		}
+		#post{
+background-color : blue;
+			padding: 30px;
+			width: 80px;
+			font-size: 35px;
+			color: white;
+		}
+		#comment{
+			width: 500px;
+			height:  75px;
+		}
+	</style>
+</head>
+<body>
+	<div id="card">
+	<h3 id="a1">ID</h3>
+	<h1 id="a2">Company</h1>
+	<h2 id="a3">URL</h2>
+	<center>
+	<table>
+		<tr>
+			<td></td>
+			<td><center>Your comment : </center></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><div id="roll" onclick="rollGacha()">roll</div></td>
+			<td><textarea id="comment"></textarea></td>
+			<td><div id="post" onclick="post()">post</div></td>
+		</tr>
+	</table>
+</center>
+	<p id="a4"></p>
+	</div>
+</body>
+<script>
+
+
+ 
+var json = ""
+var n = 0
+var currentPtr = ""
+
+
+async function loadJSON() {
+	
+	if(localStorage.getItem('json')){
+		j = localStorage.getItem('json')
+		console.log(json)
+		json = JSON.parse(j)
+		
+	}
+	else{
+		const response = await fetch("d.json");
+   		json = await response.json();
+    	localStorage.setItem('json',JSON.stringify(json))
+	}
+
+    console.log(json);
+    n = json.length;
+    var thisIter = Math.floor(Math.random() * n);
+    
+    
+    
+    console.log(json[thisIter])
+    var a1 = document.getElementById('a1')
+    var a2 = document.getElementById('a2')
+    var a3 = document.getElementById('a3')
+    var a4 = document.getElementById('a4')
+    a1.innerHTML = json[thisIter]['id']
+    a2.innerHTML = json[thisIter]['com']
+    a3.innerHTML = "<a href='http://"+json[thisIter]['url']+"' target='_blank'>"+json[thisIter]['url']+"</a>"
+    a4.innerHTML = json.length + " unseen PSEs left. Gotta catch 'em all!"
+    
+    currentPtr = json[thisIter]
+    json.splice(thisIter,1)
+    n = json.length
+    localStorage.setItem('json',JSON.stringify(json))
+}
+
+function rollGacha(){
+	var thisIter = Math.floor(Math.random() * n);
+    
+    
+    n = json.length
+    console.log(json[thisIter])
+    var a1 = document.getElementById('a1')
+    var a2 = document.getElementById('a2')
+    var a3 = document.getElementById('a3')
+    a1.innerHTML = json[thisIter]['id']
+    a2.innerHTML = json[thisIter]['com']
+    a3.innerHTML = "<a href='http://"+json[thisIter]['url']+" target='_blank'>"+json[thisIter]['url']+"</a>"
+    a4.innerHTML = json.length + " unseen PSEs left. Gotta catch 'em all!"
+    currentPtr = json[thisIter]
+    json.splice(thisIter,1)
+    n = json.length
+    localStorage.setItem('json',JSON.stringify(json))
+}
+
+async function post(){
+	var id = currentPtr['id']
+	var uri = currentPtr['url']
+	var com = currentPtr['com']
+	var ta = document.getElementById('comment')
+	var comment = ta.value
+
+	var package= id + "%0A" + uri + "%0A" + com + "%0A" + comment
+	ta.value = ""
+	const nyaa = await fetch("https://api.telegram.org/bot5405244499:AAGZwQ4ET0kBRJF9kBcuksyoc6I-Q5nSRAI/sendMessage?chat_id=-705800135&text="+package);
+	rollGacha()
+
+}
+
+loadJSON()
+
+
+</script>
+</html>
