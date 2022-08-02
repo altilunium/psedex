@@ -119,7 +119,7 @@ async function post(){
 	var uri = currentPtr['url']
 	var com = currentPtr['com']
 	var ta = document.getElementById('comment')
-	var comment = ta.value
+	var comment = ta.value.replaceAll("\n","%0A")
 
 	var package= id + "%0A" + uri + "%0A" + com + "%0A" + comment
 	ta.value = ""
