@@ -106,7 +106,7 @@ function rollGacha(){
     var a3 = document.getElementById('a3')
     a1.innerHTML = json[thisIter]['id']
     a2.innerHTML = json[thisIter]['com']
-    a3.innerHTML = "<a href='http://"+json[thisIter]['url']+" target='_blank'>"+json[thisIter]['url']+"</a>"
+    a3.innerHTML = "<a href='http://"+json[thisIter]['url']+"' target='_blank'>"+json[thisIter]['url']+"</a>"
     a4.innerHTML = json.length + " unseen PSEs left. Gotta catch 'em all!"
     currentPtr = json[thisIter]
     json.splice(thisIter,1)
