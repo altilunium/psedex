@@ -90,9 +90,7 @@ async function loadJSON() {
     a4.innerHTML = json.length + " unseen PSEs left. Gotta catch 'em all!"
     
     currentPtr = json[thisIter]
-    json.splice(thisIter,1)
-    n = json.length
-    localStorage.setItem('json',JSON.stringify(json))
+   
 }
 
 function rollGacha(){
@@ -112,6 +110,7 @@ function rollGacha(){
     json.splice(thisIter,1)
     n = json.length
     localStorage.setItem('json',JSON.stringify(json))
+    a4.innerHTML = json.length + " unseen PSEs left. Gotta catch 'em all!"
 }
 
 async function post(){
